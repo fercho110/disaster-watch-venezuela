@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="t d">
+  <title id="t">Video poster</title><desc id="d">Dark seismic wave poster for the earthquake video.</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0a121b"/><stop offset="1" stop-color="#182837"/></linearGradient></defs>
+  <rect width="1280" height="720" fill="url(#g)"/>
+  <path d="M0 475h220l46-30 55 62 70-144 74 116h105l39-48 55 72 62-188 78 160h476" fill="none" stroke="#ff6b2c" stroke-width="12" stroke-linejoin="round"/>
+  <circle cx="640" cy="300" r="82" fill="#ffffff" opacity=".08"/>
+  <path d="m616 255 74 45-74 45z" fill="#ffffff"/>
+  <text x="640" y="585" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="38" font-weight="700">20-SECOND EARTHQUAKE VISUAL</text>
+  <text x="640" y="625" text-anchor="middle" fill="#9fb0be" font-family="Arial, sans-serif" font-size="20">Place venezuela-earthquake.mp4 in the video folder</text>
+</svg>

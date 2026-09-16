@@ -1,0 +1,16 @@
+earthquake-module/MODULE_TREE.txt
+earthquake-module/PROJECT_CONTENT.md
+earthquake-module/PROMPT_FOR_CLAUDE.md
+earthquake-module/README_INTEGRATION.md
+earthquake-module/public/earthquake/audio/.gitkeep
+earthquake-module/public/earthquake/audio/README.txt
+earthquake-module/public/earthquake/images/emergency-kit.svg
+earthquake-module/public/earthquake/images/hero-earthquake.svg
+earthquake-module/public/earthquake/images/tectonic-plates.svg
+earthquake-module/public/earthquake/images/venezuela-map.svg
+earthquake-module/public/earthquake/images/video-poster.svg
+earthquake-module/public/earthquake/video/README.txt
+earthquake-module/src/earthquake/EarthquakeExperience.jsx
+earthquake-module/src/earthquake/earthquake.css
+earthquake-module/src/earthquake/earthquakeData.js
+earthquake-module/src/earthquake/index.js

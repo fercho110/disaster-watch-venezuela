@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" role="img" aria-labelledby="t d">
+  <title id="t">Educational map of Venezuela</title><desc id="d">A stylized outline of Venezuela with Mene Grande marked in the west.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#20364a"/><stop offset="1" stop-color="#0d1823"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="760" height="500" rx="28" fill="#edf1f4"/>
+  <g stroke="#d9e0e5" stroke-width="1">
+    <path d="M0 100H760M0 200H760M0 300H760M0 400H760"/><path d="M120 0V500M240 0V500M360 0V500M480 0V500M600 0V500"/>
+  </g>
+  <text x="42" y="56" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#687887">CARIBBEAN SEA</text>
+  <path d="M145 183 210 150 281 153 338 123 405 142 449 127 500 158 558 153 622 198 608 244 572 271 548 324 499 349 453 390 389 403 330 372 280 378 249 340 204 319 181 276 137 250 126 213Z" fill="url(#g)" filter="url(#shadow)"/>
+  <path d="M145 183 210 150 281 153 338 123 405 142 449 127 500 158 558 153 622 198" fill="none" stroke="#ffca57" stroke-width="5" opacity=".75"/>
+  <g>
+    <circle cx="211" cy="221" r="28" fill="#ff6b2c" opacity=".18"/>
+    <circle cx="211" cy="221" r="16" fill="#ff6b2c" opacity=".3"/>
+    <circle cx="211" cy="221" r="7" fill="#ff6b2c"/>
+    <path d="M227 212 292 176" stroke="#ff6b2c" stroke-width="2"/>
+    <rect x="290" y="143" width="176" height="68" rx="14" fill="#fff" stroke="#dce2e7"/>
+    <text x="308" y="170" font-family="Arial, sans-serif" font-weight="700" font-size="17" fill="#10161f">Mene Grande area</text>
+    <text x="308" y="192" font-family="Arial, sans-serif" font-size="13" fill="#66717f">Main event: M 6.2</text>
+  </g>
+  <text x="443" y="270" font-family="Arial, sans-serif" font-weight="700" font-size="24" fill="#ffffff" opacity=".88">VENEZUELA</text>
+  <text x="42" y="456" font-family="Arial, sans-serif" font-size="12" fill="#7d8994">Stylized educational map · Not for navigation</text>
+</svg>
