@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import './earthquake.css'
 import {
   earthquakeEffects,
@@ -34,13 +34,44 @@ function FactCard({ label, value, note }) {
   )
 }
 
+function Reveal({ children, className = '' }) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.15 },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className={`eq-reveal ${visible ? 'is-visible' : ''} ${className}`}>
+      {children}
+    </div>
+  )
+}
+
 function SectionTitle({ eyebrow, title, children }) {
   return (
-    <div className="eq-section-heading">
+    <Reveal className="eq-section-heading">
       <span>{eyebrow}</span>
       <h2>{title}</h2>
       {children && <p>{children}</p>}
-    </div>
+    </Reveal>
   )
 }
 
@@ -336,14 +367,14 @@ export default function EarthquakeExperience({ onBack }) {
             An earthquake is a sudden shaking of the ground caused by a fast release of energy inside the Earth's crust. On 24 September 2025, a strong earthquake was recorded near Mene Grande in western Venezuela. This page uses verified USGS measurements for the science facts.
           </SectionTitle>
 
-          <div className="eq-facts-grid">
+          <Reveal className="eq-facts-grid eq-stagger">
             <FactCard label="Magnitude" value={`M ${earthquakeFacts.mainEvent.magnitude}`} note="USGS main event" />
             <FactCard label="Date" value={earthquakeFacts.mainEvent.date} note={earthquakeFacts.mainEvent.localTime} />
             <FactCard label="Depth" value={earthquakeFacts.mainEvent.depth} note="Shallow earthquake" />
             <FactCard label="Location" value="Mene Grande" note="Western Venezuela" />
-          </div>
+          </Reveal>
 
-          <div className="eq-story-grid">
+          <Reveal className="eq-story-grid">
             <article className="eq-story-copy">
               <span className="eq-chip">The story</span>
               <h3>A sudden movement beneath the surface</h3>
@@ -367,23 +398,23 @@ export default function EarthquakeExperience({ onBack }) {
                 <span>70.7174° W</span>
               </div>
             </article>
-          </div>
+          </Reveal>
 
           <div className="eq-subsection-head">
             <span className="eq-chip">Effects</span>
             <h3>What damage can an earthquake like this cause?</h3>
           </div>
           <p className="eq-effects-note">{earthquakeEffects.note}</p>
-          <div className="eq-effects-grid">
+          <Reveal className="eq-effects-grid eq-stagger">
             {earthquakeEffects.items.map((item) => (
               <article className="eq-effect-card" key={item.text}>
                 <span aria-hidden="true">{item.icon}</span>
                 <p>{item.text}</p>
               </article>
             ))}
-          </div>
+          </Reveal>
 
-          <div className="eq-video-wrap">
+          <Reveal className="eq-video-wrap">
             <div className="eq-video-copy">
               <span className="eq-chip">20-second visual story</span>
               <h3>Imagine the moment</h3>
@@ -410,7 +441,7 @@ export default function EarthquakeExperience({ onBack }) {
                 </div>
               )}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -420,7 +451,7 @@ export default function EarthquakeExperience({ onBack }) {
             Move the magnitude slider, then trigger the simulator. This is a learning model, not a prediction tool.
           </SectionTitle>
 
-          <div className="eq-science-grid">
+          <Reveal className="eq-science-grid">
             <div className={`eq-plates-card ${shake ? 'eq-is-shaking' : ''}`}>
               <img src="/earthquake/images/tectonic-plates.svg" alt="Educational diagram showing tectonic stress and a fault" />
               <div className="eq-wave-lines" aria-hidden="true"><i /><i /><i /></div>
@@ -442,9 +473,9 @@ export default function EarthquakeExperience({ onBack }) {
               <p>{magnitudeInfo.detail}</p>
               <button type="button" className="eq-primary-btn" onClick={simulateShake}>Simulate movement</button>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="eq-timeline">
+          <Reveal className="eq-timeline eq-stagger">
             <article>
               <span>18:21:55</span>
               <strong>Main event</strong>
@@ -460,7 +491,7 @@ export default function EarthquakeExperience({ onBack }) {
               <strong>Strong later event</strong>
               <p>M 6.3 · 25 km ENE of Mene Grande · depth 14 km</p>
             </article>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -506,7 +537,7 @@ export default function EarthquakeExperience({ onBack }) {
             Choose when each safety action belongs. The goal is to learn calm, practical responses.
           </SectionTitle>
 
-          <div className="eq-dodont-grid">
+          <Reveal className="eq-dodont-grid eq-stagger">
             <div className="eq-do-list">
               <h4>✅ Do</h4>
               <ul>
@@ -523,7 +554,7 @@ export default function EarthquakeExperience({ onBack }) {
                 ))}
               </ul>
             </div>
-          </div>
+          </Reveal>
 
           <SafetyGame />
         </div>
