@@ -1,11 +1,14 @@
 import React, { useMemo, useState } from 'react'
 import './earthquake.css'
 import {
+  earthquakeEffects,
   earthquakeFacts,
   grammarQuestions,
   magnitudeLevels,
   quizQuestions,
   safetyActions,
+  safetyDonts,
+  safetyDos,
   vocabulary,
 } from './earthquakeData.js'
 
@@ -330,7 +333,7 @@ export default function EarthquakeExperience({ onBack }) {
       <section className="eq-section eq-story" id="story">
         <div className="eq-container">
           <SectionTitle eyebrow="01 · The event" title="What happened?">
-            On 24 September 2025, a strong earthquake was recorded near Mene Grande in western Venezuela. This page uses verified USGS measurements for the science facts.
+            An earthquake is a sudden shaking of the ground caused by a fast release of energy inside the Earth's crust. On 24 September 2025, a strong earthquake was recorded near Mene Grande in western Venezuela. This page uses verified USGS measurements for the science facts.
           </SectionTitle>
 
           <div className="eq-facts-grid">
@@ -364,6 +367,20 @@ export default function EarthquakeExperience({ onBack }) {
                 <span>70.7174° W</span>
               </div>
             </article>
+          </div>
+
+          <div className="eq-subsection-head">
+            <span className="eq-chip">Effects</span>
+            <h3>What damage can an earthquake like this cause?</h3>
+          </div>
+          <p className="eq-effects-note">{earthquakeEffects.note}</p>
+          <div className="eq-effects-grid">
+            {earthquakeEffects.items.map((item) => (
+              <article className="eq-effect-card" key={item.text}>
+                <span aria-hidden="true">{item.icon}</span>
+                <p>{item.text}</p>
+              </article>
+            ))}
           </div>
 
           <div className="eq-video-wrap">
@@ -488,6 +505,26 @@ export default function EarthquakeExperience({ onBack }) {
           <SectionTitle eyebrow="04 · Safety mission" title="Before, during or after?">
             Choose when each safety action belongs. The goal is to learn calm, practical responses.
           </SectionTitle>
+
+          <div className="eq-dodont-grid">
+            <div className="eq-do-list">
+              <h4>✅ Do</h4>
+              <ul>
+                {safetyDos.map((tip) => (
+                  <li key={tip}>{tip}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="eq-dont-list">
+              <h4>❌ Don't</h4>
+              <ul>
+                {safetyDonts.map((tip) => (
+                  <li key={tip}>{tip}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
           <SafetyGame />
         </div>
       </section>

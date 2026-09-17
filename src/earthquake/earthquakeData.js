@@ -57,6 +57,28 @@ export const grammarQuestions = [
   },
 ]
 
+export const earthquakeEffects = {
+  note: 'General educational explanation of typical earthquake effects — not a specific damage report for this event.',
+  items: [
+    { icon: '🏚️', text: 'Buildings, roads and bridges can be damaged or destroyed.' },
+    { icon: '⚡', text: 'Power, water and communication services may be interrupted.' },
+    { icon: '🚑', text: 'People can be injured, so rescue teams may need to help.' },
+    { icon: '😟', text: 'Families may feel scared and need safe shelter for a while.' },
+  ],
+}
+
+export const safetyDos = [
+  'Drop, cover and hold on during shaking.',
+  'Keep a flashlight, water and a first-aid kit ready.',
+  'Move to open spaces away from buildings after strong shaking stops.',
+]
+
+export const safetyDonts = [
+  "Don't run outside while the ground is still shaking.",
+  "Don't use elevators during or right after an earthquake.",
+  "Don't stand near windows, mirrors or tall furniture.",
+]
+
 export const safetyActions = [
   { id: 1, text: 'Prepare water, a flashlight and first-aid supplies.', category: 'Before' },
   { id: 2, text: 'Identify safe places away from windows.', category: 'Before' },
