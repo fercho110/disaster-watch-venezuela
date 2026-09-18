@@ -358,7 +358,7 @@ export default function EarthquakeExperience() {
 
       <header className="eq-hero" id="hero">
         <div className="eq-hero-media">
-          <img src="/earthquake/images/redesign/hero/young-reporters-hero.png" alt="Fernando and Juan Manuel, two young reporters, standing in front of a map of Venezuela with seismograph lines and a cracked street" />
+          <img className="eq-photo-zoom" src="/earthquake/images/redesign/hero/young-reporters-hero.png" alt="Fernando and Juan Manuel, two young reporters, standing in front of a map of Venezuela with seismograph lines and a cracked street" />
         </div>
         <div className="eq-hero-panel">
           <span className="eq-eyebrow-chip">YOUNG REPORTERS PRESENT</span>
@@ -384,7 +384,7 @@ export default function EarthquakeExperience() {
           <Reveal className="eq-reporter-grid eq-stagger">
             {students.map((student) => (
               <article className="eq-reporter-card" key={student.name}>
-                <img src={student.photo} alt={`${student.name}, young reporter`} loading="lazy" />
+                <img className="eq-photo-zoom" src={student.photo} alt={`${student.name}, young reporter`} loading="lazy" />
                 <strong>{student.name}</strong>
                 <small>{student.role}</small>
                 <div className="eq-speech-bubble eq-speech-bubble-small">{student.quote}</div>
@@ -413,7 +413,7 @@ export default function EarthquakeExperience() {
           </Reveal>
 
           <Reveal className="eq-map-card">
-            <img src="/earthquake/images/venezuela-map.svg" alt="Map of Venezuela showing the earthquake location near Mene Grande" loading="lazy" />
+            <img className="eq-photo-zoom" src="/earthquake/images/venezuela-map.svg" alt="Map of Venezuela showing the earthquake location near Mene Grande" loading="lazy" />
           </Reveal>
 
           <PresenterVideo video={presenterVideos.earthquake} />
@@ -459,7 +459,7 @@ export default function EarthquakeExperience() {
           <StationHeading eyebrow="🌍 Earth science" title="How Does an Earthquake Happen?" />
 
           <Reveal className="eq-process-image">
-            <img src="/earthquake/images/redesign/sections/earthquake-process.png" alt="Four illustrated steps showing tectonic plates moving, pressure building, the fault breaking and buildings shaking" loading="lazy" />
+            <img className="eq-photo-zoom" src="/earthquake/images/redesign/sections/earthquake-process.png" alt="Four illustrated steps showing tectonic plates moving, pressure building, the fault breaking and buildings shaking" loading="lazy" />
           </Reveal>
 
           <Reveal className="eq-steps-grid eq-stagger">
@@ -484,7 +484,7 @@ export default function EarthquakeExperience() {
           <StationHeading eyebrow="🛡️ Be prepared" title="Stay Safe!" />
 
           <Reveal className="eq-safety-image">
-            <img src="/earthquake/images/redesign/sections/safety-before-during-after.png" alt="Illustration of the two young reporters preparing an emergency kit, hiding under a table, and talking with a rescue worker after an earthquake" loading="lazy" />
+            <img className="eq-photo-zoom" src="/earthquake/images/redesign/sections/safety-before-during-after.png" alt="Illustration of the two young reporters preparing an emergency kit, hiding under a table, and talking with a rescue worker after an earthquake" loading="lazy" />
           </Reveal>
 
           <Reveal className="eq-stages-grid eq-stagger">
@@ -514,7 +514,7 @@ export default function EarthquakeExperience() {
           <StationHeading eyebrow="📖 Unit 4 · Disaster!" title="Disaster Words" intro="Tap a card to learn the word." />
 
           <Reveal className="eq-vocab-banner">
-            <img src="/earthquake/images/redesign/sections/unit4-vocabulary-cards.png" alt="Illustrated cards for disaster vocabulary: earthquake, volcano, hurricane, tsunami, lightning and rescue" loading="lazy" />
+            <img className="eq-photo-zoom" src="/earthquake/images/redesign/sections/unit4-vocabulary-cards.png" alt="Illustrated cards for disaster vocabulary: earthquake, volcano, hurricane, tsunami, lightning and rescue" loading="lazy" />
           </Reveal>
 
           <p className="eq-vocab-pointer">👇 Now tap these cards to learn each word:</p>
