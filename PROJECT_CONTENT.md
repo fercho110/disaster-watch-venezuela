@@ -2,7 +2,7 @@
 
 **Title:** WHEN THE GROUND SHOOK  
 **Subtitle:** The 2025 Venezuela Earthquake Sequence  
-**Students:** Fernando Luis Díaz Fajardo & Juan Manuel Guzmán Páez
+**Students:** Fernando Luis Díaz Álvarez & Juan Manuel Guzmán Páez
 
 ## Educational goals
 

@@ -1,37 +1,33 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './earthquake.css'
 import {
-  earthquakeEffects,
-  earthquakeFacts,
-  grammarQuestions,
-  magnitudeLevels,
-  quizQuestions,
-  safetyActions,
-  safetyDonts,
-  safetyDos,
+  earthquakeSteps,
+  eventFacts,
+  finalChallenge,
+  grammarChallenge,
+  grammarExamples,
+  safetyStages,
+  students,
   vocabulary,
+  whyBecause,
 } from './earthquakeData.js'
 
-const sections = [
-  ['story', 'Story'],
-  ['science', 'Science'],
-  ['language', 'English Lab'],
-  ['safety', 'Safety'],
-  ['quiz', 'Final Quiz'],
+const stations = [
+  ['hero', '🏠 Home'],
+  ['reporters', '🧒 Team'],
+  ['what-happened', '📅 Event'],
+  ['video', '🎥 Video'],
+  ['process', '🌍 Science'],
+  ['safety', '🛡️ Safe'],
+  ['vocabulary', '📖 Words'],
+  ['grammar', '✏️ Grammar'],
+  ['why-because', '❓ Why'],
+  ['challenge', '🏆 Challenge'],
+  ['credits', '🎓 Credits'],
 ]
 
 function scrollToSection(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
-
-function FactCard({ label, value, note }) {
-  return (
-    <article className="eq-fact-card">
-      <span className="eq-fact-label">{label}</span>
-      <strong>{value}</strong>
-      {note && <small>{note}</small>}
-    </article>
-  )
 }
 
 function Reveal({ children, className = '' }) {
@@ -65,68 +61,37 @@ function Reveal({ children, className = '' }) {
   )
 }
 
-function SectionTitle({ eyebrow, title, children }) {
+function StationHeading({ eyebrow, title, intro }) {
   return (
-    <Reveal className="eq-section-heading">
-      <span>{eyebrow}</span>
+    <Reveal className="eq-station-heading">
+      <span className="eq-eyebrow-chip">{eyebrow}</span>
       <h2>{title}</h2>
-      {children && <p>{children}</p>}
+      {intro && <p>{intro}</p>}
     </Reveal>
   )
 }
 
-function GrammarGame() {
-  const [answers, setAnswers] = useState({})
-
-  const score = Object.entries(answers).reduce((total, [index, answer]) => {
-    return total + (grammarQuestions[Number(index)]?.answer === answer ? 1 : 0)
-  }, 0)
-
+function FactCard({ fact }) {
+  const [revealed, setRevealed] = useState(false)
   return (
-    <div className="eq-game-shell">
-      <div className="eq-game-topline">
-        <div>
-          <span className="eq-chip">Grammar challenge</span>
-          <h3>What were people doing when it happened?</h3>
-        </div>
-        <strong className="eq-score">{score}/{grammarQuestions.length}</strong>
-      </div>
-
-      <div className="eq-question-grid">
-        {grammarQuestions.map((item, index) => {
-          const selected = answers[index]
-          const isCorrect = selected === item.answer
-          return (
-            <article className="eq-question-card" key={item.prompt}>
-              <p>{item.prompt}</p>
-              <div className="eq-choice-row">
-                {item.choices.map((choice) => (
-                  <button
-                    type="button"
-                    key={choice}
-                    className={`eq-choice ${selected === choice ? 'is-selected' : ''} ${
-                      selected && choice === item.answer ? 'is-correct' : ''
-                    } ${selected === choice && !isCorrect ? 'is-wrong' : ''}`}
-                    onClick={() => setAnswers((prev) => ({ ...prev, [index]: choice }))}
-                  >
-                    {choice}
-                  </button>
-                ))}
-              </div>
-              {selected && (
-                <div className={`eq-feedback ${isCorrect ? 'is-correct' : 'is-wrong'}`}>
-                  <strong>{isCorrect ? 'Correct!' : 'Try again.'}</strong> {item.explanation}
-                </div>
-              )}
-            </article>
-          )
-        })}
-      </div>
-    </div>
+    <button
+      type="button"
+      className={`eq-fact-flip ${revealed ? 'is-revealed' : ''}`}
+      onClick={() => setRevealed(true)}
+      aria-pressed={revealed}
+    >
+      <span className="eq-fact-flip-icon" aria-hidden="true">{fact.icon}</span>
+      <strong className="eq-fact-flip-label">{fact.label}</strong>
+      {revealed ? (
+        <span className="eq-fact-flip-value">{fact.value}</span>
+      ) : (
+        <span className="eq-fact-flip-hint">Tap to reveal</span>
+      )}
+    </button>
   )
 }
 
-function VocabularyLab() {
+function VocabularyCards() {
   const [open, setOpen] = useState([])
 
   function toggle(index) {
@@ -134,20 +99,20 @@ function VocabularyLab() {
   }
 
   return (
-    <div className="eq-vocab-grid">
+    <div className="eq-word-grid">
       {vocabulary.map((item, index) => {
         const flipped = open.includes(index)
         return (
           <button
             type="button"
             key={item.word}
-            className={`eq-vocab-card ${flipped ? 'is-flipped' : ''}`}
+            className={`eq-word-card ${flipped ? 'is-flipped' : ''} ${item.optional ? 'is-bonus' : ''}`}
             onClick={() => toggle(index)}
             aria-pressed={flipped}
           >
-            <span className="eq-vocab-icon">{item.icon}</span>
-            <strong>{flipped ? item.meaning : item.word}</strong>
-            <small>{flipped ? item.pronunciation : 'Tap to reveal'}</small>
+            {item.optional && <span className="eq-word-bonus">Bonus</span>}
+            <strong>{item.word}</strong>
+            <small>{flipped ? item.meaning : 'Tap the card'}</small>
           </button>
         )
       })}
@@ -155,135 +120,21 @@ function VocabularyLab() {
   )
 }
 
-function SafetyGame() {
-  const [current, setCurrent] = useState(0)
-  const [score, setScore] = useState(0)
-  const [result, setResult] = useState(null)
-  const [finished, setFinished] = useState(false)
-
-  const action = safetyActions[current]
-
-  function answer(category) {
-    if (result) return
-    const correct = category === action.category
-    setResult(correct ? 'correct' : 'wrong')
-    if (correct) setScore((value) => value + 1)
-  }
-
-  function next() {
-    if (current === safetyActions.length - 1) {
-      setFinished(true)
-      return
-    }
-    setCurrent((value) => value + 1)
-    setResult(null)
-  }
-
-  function restart() {
-    setCurrent(0)
-    setScore(0)
-    setResult(null)
-    setFinished(false)
-  }
-
-  if (finished) {
-    return (
-      <div className="eq-safety-card eq-centered-card">
-        <img src="/earthquake/images/emergency-kit.svg" alt="Illustration of an emergency kit" />
-        <span className="eq-chip">Mission complete</span>
-        <h3>{score === safetyActions.length ? 'Perfect safety score!' : 'Great practice!'}</h3>
-        <p>You scored {score} out of {safetyActions.length}. Safety knowledge helps us react calmly.</p>
-        <button className="eq-primary-btn" type="button" onClick={restart}>Play again</button>
-      </div>
-    )
-  }
-
-  return (
-    <div className="eq-safety-card">
-      <div className="eq-progress-line">
-        <span style={{ width: `${((current + 1) / safetyActions.length) * 100}%` }} />
-      </div>
-      <span className="eq-kicker">Action {current + 1} of {safetyActions.length}</span>
-      <h3>{action.text}</h3>
-      <p>When should you do this?</p>
-      <div className="eq-three-buttons">
-        {['Before', 'During', 'After'].map((category) => (
-          <button type="button" key={category} onClick={() => answer(category)}>{category}</button>
-        ))}
-      </div>
-      {result && (
-        <div className={`eq-feedback ${result === 'correct' ? 'is-correct' : 'is-wrong'}`}>
-          {result === 'correct' ? 'Correct!' : `Not quite. This belongs in “${action.category}”.`}
-          <button type="button" className="eq-inline-btn" onClick={next}>
-            {current === safetyActions.length - 1 ? 'See result' : 'Next action →'}
-          </button>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function FinalQuiz() {
-  const [index, setIndex] = useState(0)
-  const [score, setScore] = useState(0)
+function GrammarMiniQuiz() {
   const [selected, setSelected] = useState(null)
-  const [done, setDone] = useState(false)
-
-  const current = quizQuestions[index]
-
-  function choose(choice) {
-    if (selected) return
-    setSelected(choice)
-    if (choice === current.answer) setScore((value) => value + 1)
-  }
-
-  function next() {
-    if (index === quizQuestions.length - 1) {
-      setDone(true)
-      return
-    }
-    setIndex((value) => value + 1)
-    setSelected(null)
-  }
-
-  function reset() {
-    setIndex(0)
-    setScore(0)
-    setSelected(null)
-    setDone(false)
-  }
-
-  if (done) {
-    const percent = Math.round((score / quizQuestions.length) * 100)
-    return (
-      <div className="eq-certificate">
-        <span className="eq-certificate-star">★</span>
-        <span className="eq-chip">Final result</span>
-        <h3>{percent >= 80 ? 'Earthquake Expert!' : 'Earthquake Explorer!'}</h3>
-        <p>You answered {score} of {quizQuestions.length} questions correctly.</p>
-        <div className="eq-certificate-score">{percent}%</div>
-        <button type="button" className="eq-primary-btn" onClick={reset}>Try the quiz again</button>
-      </div>
-    )
-  }
 
   return (
-    <div className="eq-quiz-card">
-      <div className="eq-progress-line">
-        <span style={{ width: `${((index + 1) / quizQuestions.length) * 100}%` }} />
-      </div>
-      <span className="eq-kicker">Question {index + 1} of {quizQuestions.length}</span>
-      <h3>{current.question}</h3>
-      <div className="eq-quiz-options">
-        {current.choices.map((choice) => {
-          const isAnswer = choice === current.answer
-          const isSelected = choice === selected
+    <div className="eq-grammar-quiz">
+      <p className="eq-grammar-prompt">{grammarChallenge.prompt}</p>
+      <div className="eq-choice-row">
+        {grammarChallenge.choices.map((choice) => {
+          const isCorrect = choice === grammarChallenge.answer
           return (
             <button
               type="button"
               key={choice}
-              className={`${selected && isAnswer ? 'is-correct' : ''} ${selected && isSelected && !isAnswer ? 'is-wrong' : ''}`}
-              onClick={() => choose(choice)}
+              className={`eq-choice-pill ${selected === choice ? (isCorrect ? 'is-correct' : 'is-wrong') : ''}`}
+              onClick={() => setSelected(choice)}
             >
               {choice}
             </button>
@@ -291,302 +142,393 @@ function FinalQuiz() {
         })}
       </div>
       {selected && (
-        <div className={`eq-feedback ${selected === current.answer ? 'is-correct' : 'is-wrong'}`}>
-          {selected === current.answer ? 'Excellent!' : `Correct answer: ${current.answer}`}
-          <button type="button" className="eq-inline-btn" onClick={next}>
-            {index === quizQuestions.length - 1 ? 'Finish quiz' : 'Next question →'}
-          </button>
+        <div className={`eq-feedback-box ${selected === grammarChallenge.answer ? 'is-correct' : 'is-wrong'}`}>
+          {selected === grammarChallenge.answer ? (
+            <>
+              <strong>Great job! 🎉</strong> {grammarChallenge.feedback}
+            </>
+          ) : (
+            <>Not quite — the answer is “{grammarChallenge.answer}.”</>
+          )}
         </div>
       )}
     </div>
   )
 }
 
-export default function EarthquakeExperience({ onBack }) {
-  const [magnitude, setMagnitude] = useState(6.2)
-  const [shake, setShake] = useState(false)
-  const [videoError, setVideoError] = useState(false)
-  const [reporterText, setReporterText] = useState('')
+function WhyBecause() {
+  const [revealed, setRevealed] = useState(false)
+  const [ownSentence, setOwnSentence] = useState('')
 
-  const magnitudeInfo = useMemo(() => {
-    return magnitudeLevels.find((level) => magnitude >= level.min && magnitude <= level.max) || magnitudeLevels[0]
-  }, [magnitude])
+  return (
+    <div className="eq-why-card">
+      <p className="eq-why-question">❓ {whyBecause.question}</p>
+      {revealed ? (
+        <p className="eq-why-answer">✅ {whyBecause.answer}</p>
+      ) : (
+        <button type="button" className="eq-primary-btn" onClick={() => setRevealed(true)}>
+          Show the answer
+        </button>
+      )}
+      <div className="eq-why-own">
+        <p>Now make your own Why...? / Because... sentence.</p>
+        <textarea
+          value={ownSentence}
+          onChange={(event) => setOwnSentence(event.target.value)}
+          placeholder="Why...? Because..."
+          rows="3"
+          aria-label="Write your own Why / Because sentence"
+        />
+      </div>
+    </div>
+  )
+}
 
-  function simulateShake() {
-    setShake(false)
-    window.requestAnimationFrame(() => {
-      setShake(true)
-      window.setTimeout(() => setShake(false), 900)
-    })
+function PictureChallenge({ onDone }) {
+  const [selected, setSelected] = useState(null)
+  const question = finalChallenge.pictureQuestion
+
+  function choose(option) {
+    setSelected(option.label)
+    if (option.correct) onDone()
   }
 
   return (
-    <main className="eq-page">
-      <header className="eq-hero" id="top">
-        <div className="eq-hero-noise" aria-hidden="true" />
-        <div className="eq-container eq-hero-grid">
-          <div className="eq-hero-copy">
-            <div className="eq-topbar">
-              <span className="eq-brand">🌎 Disaster Watch Venezuela</span>
-              {onBack && (
-                <button className="eq-back-btn" type="button" onClick={onBack}>← Back</button>
-              )}
-              <span className="eq-live-pill"><span /> Interactive school project</span>
-            </div>
-            <p className="eq-eyebrow">UNIT 4 · DISASTER!</p>
-            <h1>WHEN THE<br /><em>GROUND SHOOK</em></h1>
-            <p className="eq-hero-subtitle">An Interactive Earthquake Report about the 2025 Venezuela earthquake sequence.</p>
-            <div className="eq-hero-actions">
-              <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('story')}>Start experience ↓</button>
-              <button type="button" className="eq-secondary-btn" onClick={() => scrollToSection('quiz')}>Take the quiz</button>
-            </div>
-            <div className="eq-byline">
-              <span>Created by</span>
-              <strong>Fernando Luis Díaz Fajardo & Juan Manuel Guzmán Páez</strong>
-            </div>
-          </div>
-          <div className={`eq-hero-visual ${shake ? 'eq-is-shaking' : ''}`}>
-            <img src="/earthquake/images/hero-earthquake.svg" alt="Stylized illustration of seismic waves and a city" />
-            <div className="eq-magnitude-orb"><span>M</span><strong>6.2</strong><small>main event</small></div>
-            <button type="button" className="eq-shake-btn" onClick={simulateShake}>Feel the shake</button>
-          </div>
-        </div>
-      </header>
+    <article className="eq-challenge-card">
+      <span className="eq-challenge-number">1</span>
+      <h3>{question.prompt}</h3>
+      <div className="eq-picture-options">
+        {question.options.map((option) => (
+          <button
+            type="button"
+            key={option.label}
+            className={`eq-picture-option ${selected === option.label ? (option.correct ? 'is-correct' : 'is-wrong') : ''}`}
+            onClick={() => choose(option)}
+          >
+            <span aria-hidden="true">{option.emoji}</span>
+            {option.label}
+          </button>
+        ))}
+      </div>
+      {selected && (
+        <p className={`eq-challenge-feedback ${question.options.find((o) => o.label === selected)?.correct ? 'is-correct' : 'is-wrong'}`}>
+          {question.options.find((o) => o.label === selected)?.correct ? 'Correct! 🎉' : 'Try again!'}
+        </p>
+      )}
+    </article>
+  )
+}
 
-      <nav className="eq-sticky-nav" aria-label="Earthquake project sections">
-        <div className="eq-container">
-          {sections.map(([id, label]) => (
+function SentenceChallenge({ onDone }) {
+  const [selected, setSelected] = useState(null)
+  const question = finalChallenge.completeSentence
+
+  function choose(choice) {
+    setSelected(choice)
+    if (choice === question.answer) onDone()
+  }
+
+  return (
+    <article className="eq-challenge-card">
+      <span className="eq-challenge-number">2</span>
+      <h3>{question.prompt}</h3>
+      <div className="eq-choice-row">
+        {question.choices.map((choice) => (
+          <button
+            type="button"
+            key={choice}
+            className={`eq-choice-pill ${selected === choice ? (choice === question.answer ? 'is-correct' : 'is-wrong') : ''}`}
+            onClick={() => choose(choice)}
+          >
+            {choice}
+          </button>
+        ))}
+      </div>
+      {selected && (
+        <p className={`eq-challenge-feedback ${selected === question.answer ? 'is-correct' : 'is-wrong'}`}>
+          {selected === question.answer ? 'Correct! 🎉' : `Try again! The answer is “${question.answer}.”`}
+        </p>
+      )}
+    </article>
+  )
+}
+
+function OrderChallenge({ onDone }) {
+  const [order, setOrder] = useState([])
+  const steps = finalChallenge.orderSteps
+
+  function pick(step) {
+    if (order.includes(step)) return
+    const next = [...order, step]
+    setOrder(next)
+    if (next.length === steps.length) {
+      const isCorrect = next.every((value, index) => value === steps[index])
+      if (isCorrect) onDone()
+      else setTimeout(() => setOrder([]), 900)
+    }
+  }
+
+  return (
+    <article className="eq-challenge-card">
+      <span className="eq-challenge-number">3</span>
+      <h3>Put the safety steps in order</h3>
+      <div className="eq-choice-row">
+        {steps.map((step) => (
+          <button
+            type="button"
+            key={step}
+            className={`eq-choice-pill ${order.includes(step) ? 'is-correct' : ''}`}
+            onClick={() => pick(step)}
+            disabled={order.includes(step)}
+          >
+            {step}
+          </button>
+        ))}
+      </div>
+      <p className="eq-order-trail" aria-live="polite">{order.join(' → ') || 'Tap Before, During, After — in order.'}</p>
+    </article>
+  )
+}
+
+function FinalChallenge() {
+  const [done, setDone] = useState({ 1: false, 2: false, 3: false })
+  const allDone = done[1] && done[2] && done[3]
+
+  if (allDone) {
+    return (
+      <div className="eq-completion-card">
+        <span className="eq-completion-stars" aria-hidden="true">⭐ ⭐ ⭐</span>
+        <h3>GREAT JOB!</h3>
+        <p>You completed the Disaster Watch Venezuela report.</p>
+        <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('credits')}>
+          FINISH THE REPORT
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="eq-challenge-grid">
+      <PictureChallenge onDone={() => setDone((prev) => ({ ...prev, 1: true }))} />
+      <SentenceChallenge onDone={() => setDone((prev) => ({ ...prev, 2: true }))} />
+      <OrderChallenge onDone={() => setDone((prev) => ({ ...prev, 3: true }))} />
+    </div>
+  )
+}
+
+export default function EarthquakeExperience() {
+  const [videoError, setVideoError] = useState(false)
+
+  return (
+    <main className="eq-page">
+      <nav className="eq-station-nav" aria-label="Report stations">
+        <div className="eq-station-nav-inner">
+          {stations.map(([id, label]) => (
             <button type="button" key={id} onClick={() => scrollToSection(id)}>{label}</button>
           ))}
         </div>
       </nav>
 
-      <section className="eq-section eq-story" id="story">
-        <div className="eq-container">
-          <SectionTitle eyebrow="01 · The event" title="What happened?">
-            An earthquake is a sudden shaking of the ground caused by a fast release of energy inside the Earth's crust. On 24 September 2025, a strong earthquake was recorded near Mene Grande in western Venezuela. This page uses verified USGS measurements for the science facts.
-          </SectionTitle>
-
-          <Reveal className="eq-facts-grid eq-stagger">
-            <FactCard label="Magnitude" value={`M ${earthquakeFacts.mainEvent.magnitude}`} note="USGS main event" />
-            <FactCard label="Date" value={earthquakeFacts.mainEvent.date} note={earthquakeFacts.mainEvent.localTime} />
-            <FactCard label="Depth" value={earthquakeFacts.mainEvent.depth} note="Shallow earthquake" />
-            <FactCard label="Location" value="Mene Grande" note="Western Venezuela" />
-          </Reveal>
-
-          <Reveal className="eq-story-grid">
-            <article className="eq-story-copy">
-              <span className="eq-chip">The story</span>
-              <h3>A sudden movement beneath the surface</h3>
-              <p>
-                The main event in this report measured <strong>magnitude 6.2</strong> and occurred about 24 km east-northeast of Mene Grande. A later <strong>magnitude 6.3</strong> earthquake was also recorded in the same area.
-              </p>
-              <p>
-                Earthquakes happen when stress in the Earth’s crust is suddenly released along faults. The energy travels as seismic waves and makes the ground move.
-              </p>
-              <div className="eq-callout">
-                <strong>Think like a reporter:</strong>
-                <span>What were people doing when the earthquake happened?</span>
-              </div>
-            </article>
-
-            <article className="eq-map-card">
-              <div className="eq-map-topline"><span>Epicenter map</span><strong>Venezuela</strong></div>
-              <img src="/earthquake/images/venezuela-map.svg" alt="Stylized educational map locating the earthquake near Mene Grande, Venezuela" />
-              <div className="eq-map-meta">
-                <span>9.9222° N</span>
-                <span>70.7174° W</span>
-              </div>
-            </article>
-          </Reveal>
-
-          <div className="eq-subsection-head">
-            <span className="eq-chip">Effects</span>
-            <h3>What damage can an earthquake like this cause?</h3>
+      <header className="eq-hero" id="hero">
+        <div className="eq-hero-media">
+          <img src="/earthquake/images/redesign/hero/young-reporters-hero.png" alt="Fernando and Juan Manuel, two young reporters, standing in front of a map of Venezuela with seismograph lines and a cracked street" />
+        </div>
+        <div className="eq-hero-panel">
+          <span className="eq-eyebrow-chip">YOUNG REPORTERS PRESENT</span>
+          <h1>DISASTER WATCH<br />VENEZUELA</h1>
+          <p className="eq-hero-subtitle">When the Ground Shook</p>
+          <p className="eq-hero-description">An Interactive Earthquake Report</p>
+          <div className="eq-speech-bubble">Hi! We are your young reporters. Let’s discover what happened!</div>
+          <div className="eq-hero-actions">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('reporters')}>START THE REPORT</button>
+            <button type="button" className="eq-secondary-btn" onClick={() => scrollToSection('video')}>WATCH THE VIDEO</button>
           </div>
-          <p className="eq-effects-note">{earthquakeEffects.note}</p>
-          <Reveal className="eq-effects-grid eq-stagger">
-            {earthquakeEffects.items.map((item) => (
-              <article className="eq-effect-card" key={item.text}>
-                <span aria-hidden="true">{item.icon}</span>
-                <p>{item.text}</p>
+          <div className="eq-byline">
+            <span>Presented by</span>
+            <strong>Fernando Luis Díaz Álvarez &amp; Juan Manuel Guzmán Páez</strong>
+          </div>
+        </div>
+      </header>
+
+      <section className="eq-station" id="reporters">
+        <div className="eq-container">
+          <StationHeading eyebrow="👋 Say hello" title="Meet the Young Reporters" intro="We are going to tell you about an earthquake in Venezuela." />
+
+          <Reveal className="eq-reporter-grid eq-stagger">
+            {students.map((student, index) => (
+              <article className="eq-reporter-card" key={student.name}>
+                <img src={student.photo} alt={`${student.name}, young reporter`} loading="lazy" />
+                <strong>{student.name}</strong>
+                <small>{student.role}</small>
+                <div className="eq-speech-bubble eq-speech-bubble-small">
+                  {index === 0 ? 'Let’s discover what happened!' : 'And let’s learn how to stay safe!'}
+                </div>
               </article>
             ))}
           </Reveal>
 
-          <Reveal className="eq-video-wrap">
-            <div className="eq-video-copy">
-              <span className="eq-chip">20-second visual story</span>
-              <h3>Imagine the moment</h3>
-              <p>
-                Place your video at <code>public/earthquake/video/venezuela-earthquake.mp4</code>. The player will appear here automatically.
-              </p>
-              <small>Recommended label if the clip is AI-generated or dramatized: “Educational simulation — not archival footage.”</small>
-            </div>
-            <div className="eq-video-player">
-              {!videoError ? (
-                <video
-                  controls
-                  preload="metadata"
-                  poster="/earthquake/images/video-poster.svg"
-                  onError={() => setVideoError(true)}
-                >
-                  <source src="/earthquake/video/venezuela-earthquake.mp4" type="video/mp4" />
-                </video>
-              ) : (
-                <div className="eq-video-placeholder">
-                  <span>▶</span>
-                  <strong>Your video goes here</strong>
-                  <small>venezuela-earthquake.mp4</small>
-                </div>
-              )}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="eq-section eq-dark-section" id="science">
-        <div className="eq-container">
-          <SectionTitle eyebrow="02 · Earth science" title="How does an earthquake happen?">
-            Move the magnitude slider, then trigger the simulator. This is a learning model, not a prediction tool.
-          </SectionTitle>
-
-          <Reveal className="eq-science-grid">
-            <div className={`eq-plates-card ${shake ? 'eq-is-shaking' : ''}`}>
-              <img src="/earthquake/images/tectonic-plates.svg" alt="Educational diagram showing tectonic stress and a fault" />
-              <div className="eq-wave-lines" aria-hidden="true"><i /><i /><i /></div>
-            </div>
-            <div className="eq-simulator-card">
-              <span className="eq-chip">Magnitude simulator</span>
-              <div className="eq-big-number">{Number(magnitude).toFixed(1)}</div>
-              <input
-                type="range"
-                min="1"
-                max="9"
-                step="0.1"
-                value={magnitude}
-                onChange={(event) => setMagnitude(Number(event.target.value))}
-                aria-label="Earthquake magnitude"
-              />
-              <div className="eq-scale"><span>1.0</span><span>5.0</span><span>9.0</span></div>
-              <h3>{magnitudeInfo.label}</h3>
-              <p>{magnitudeInfo.detail}</p>
-              <button type="button" className="eq-primary-btn" onClick={simulateShake}>Simulate movement</button>
-            </div>
-          </Reveal>
-
-          <Reveal className="eq-timeline eq-stagger">
-            <article>
-              <span>18:21:55</span>
-              <strong>Main event</strong>
-              <p>M 6.2 · 24 km ENE of Mene Grande · depth 7.8 km</p>
-            </article>
-            <article>
-              <span>Hours later</span>
-              <strong>Continued seismic activity</strong>
-              <p>People remained alert for more movement and aftershocks.</p>
-            </article>
-            <article>
-              <span>03:51:39 UTC</span>
-              <strong>Strong later event</strong>
-              <p>M 6.3 · 25 km ENE of Mene Grande · depth 14 km</p>
-            </article>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="eq-section" id="language">
-        <div className="eq-container">
-          <SectionTitle eyebrow="03 · English lab" title="Learn English through the story">
-            Unit 4 connects disasters with past continuous and past simple. Complete the challenges below.
-          </SectionTitle>
-
-          <GrammarGame />
-
-          <div className="eq-subsection-head">
-            <span className="eq-chip">Vocabulary lab</span>
-            <h3>Tap each card to reveal the Spanish meaning and pronunciation.</h3>
+          <div className="eq-station-cta">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('what-happened')}>LET'S BEGIN</button>
           </div>
-          <VocabularyLab />
+        </div>
+      </section>
 
-          <div className="eq-reporter-card">
-            <div>
-              <span className="eq-chip">Be the reporter</span>
-              <h3>Write 3 short sentences</h3>
-              <p>Use this pattern: <strong>“People were ___ when the ground ___.”</strong></p>
-              <div className="eq-starters">
-                <button type="button" onClick={() => setReporterText((t) => `${t}${t ? '\n' : ''}People were having dinner when the ground started to shake.`)}>+ dinner</button>
-                <button type="button" onClick={() => setReporterText((t) => `${t}${t ? '\n' : ''}Children were doing homework when the lights went out.`)}>+ homework</button>
-                <button type="button" onClick={() => setReporterText((t) => `${t}${t ? '\n' : ''}Families were talking outside when another tremor happened.`)}>+ families</button>
+      <section className="eq-station eq-station-alt" id="what-happened">
+        <div className="eq-container">
+          <StationHeading eyebrow="📰 The report" title="What Happened?" intro="A strong earthquake shook the area." />
+
+          <Reveal className="eq-facts-grid eq-stagger">
+            {eventFacts.map((fact) => (
+              <FactCard key={fact.label} fact={fact} />
+            ))}
+          </Reveal>
+
+          <Reveal className="eq-map-card">
+            <img src="/earthquake/images/venezuela-map.svg" alt="Map of Venezuela showing the earthquake location near Mene Grande" loading="lazy" />
+          </Reveal>
+
+          <div className="eq-station-cta">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('process')}>SEE HOW IT HAPPENS</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="eq-station" id="video">
+        <div className="eq-container">
+          <StationHeading eyebrow="🎬 Look closely" title="Watch the Video" intro="Watch carefully. What were people doing when the ground started to shake?" />
+
+          <Reveal className="eq-video-frame">
+            {!videoError ? (
+              <video controls preload="metadata" poster="/earthquake/images/video-poster.svg" onError={() => setVideoError(true)}>
+                <source src="/earthquake/video/venezuela-earthquake.mp4" type="video/mp4" />
+              </video>
+            ) : (
+              <div className="eq-video-placeholder">
+                <span aria-hidden="true">▶</span>
+                <strong>Educational video will be added here.</strong>
               </div>
-            </div>
-            <textarea
-              value={reporterText}
-              onChange={(event) => setReporterText(event.target.value)}
-              placeholder="Write your mini report here..."
-              rows="7"
-              aria-label="Mini report writing area"
-            />
-          </div>
+            )}
+            <small className="eq-video-note">Educational video / recreation</small>
+          </Reveal>
         </div>
       </section>
 
-      <section className="eq-section eq-safety-section" id="safety">
+      <section className="eq-station eq-station-alt" id="process">
         <div className="eq-container">
-          <SectionTitle eyebrow="04 · Safety mission" title="Before, during or after?">
-            Choose when each safety action belongs. The goal is to learn calm, practical responses.
-          </SectionTitle>
+          <StationHeading eyebrow="🌍 Earth science" title="How Does an Earthquake Happen?" />
 
-          <Reveal className="eq-dodont-grid eq-stagger">
-            <div className="eq-do-list">
-              <h4>✅ Do</h4>
-              <ul>
-                {safetyDos.map((tip) => (
-                  <li key={tip}>{tip}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="eq-dont-list">
-              <h4>❌ Don't</h4>
-              <ul>
-                {safetyDonts.map((tip) => (
-                  <li key={tip}>{tip}</li>
-                ))}
-              </ul>
-            </div>
+          <Reveal className="eq-process-image">
+            <img src="/earthquake/images/redesign/sections/earthquake-process.png" alt="Four illustrated steps showing tectonic plates moving, pressure building, the fault breaking and buildings shaking" loading="lazy" />
           </Reveal>
 
-          <SafetyGame />
+          <Reveal className="eq-steps-grid eq-stagger">
+            {earthquakeSteps.map((step) => (
+              <article className="eq-step-card" key={step.number}>
+                <span className="eq-step-number">{step.number}</span>
+                <p>{step.text}</p>
+              </article>
+            ))}
+          </Reveal>
+
+          <p className="eq-station-closing">That shaking is an earthquake.</p>
+
+          <div className="eq-station-cta">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('safety')}>NEXT: STAY SAFE</button>
+          </div>
         </div>
       </section>
 
-      <section className="eq-section eq-quiz-section" id="quiz">
-        <div className="eq-container eq-quiz-layout">
-          <div>
-            <SectionTitle eyebrow="05 · Final challenge" title="Are you an Earthquake Expert?">
-              Six questions mix science, English and safety. Finish the challenge to reveal your score.
-            </SectionTitle>
-            <div className="eq-quiz-badges">
-              <span>🌎 Science</span><span>🗣️ English</span><span>🎒 Safety</span>
-            </div>
+      <section className="eq-station" id="safety">
+        <div className="eq-container">
+          <StationHeading eyebrow="🛡️ Be prepared" title="Stay Safe!" />
+
+          <Reveal className="eq-safety-image">
+            <img src="/earthquake/images/redesign/sections/safety-before-during-after.png" alt="Illustration of the two young reporters preparing an emergency kit, hiding under a table, and talking with a rescue worker after an earthquake" loading="lazy" />
+          </Reveal>
+
+          <Reveal className="eq-stages-grid eq-stagger">
+            {safetyStages.map((stage) => (
+              <article className={`eq-stage-card eq-stage-${stage.id}`} key={stage.id}>
+                <span className="eq-stage-icon" aria-hidden="true">{stage.icon}</span>
+                <strong>{stage.label}</strong>
+                <ul>
+                  {stage.tips.map((tip) => (
+                    <li key={tip}>{tip}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </Reveal>
+
+          <div className="eq-station-cta">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('vocabulary')}>I KNOW WHAT TO DO</button>
           </div>
-          <FinalQuiz />
         </div>
       </section>
 
-      <footer className="eq-footer">
-        <div className="eq-container eq-footer-grid">
-          <div>
-            <span className="eq-eyebrow">STUDENT PROJECT</span>
-            <h2>When the Ground Shook</h2>
-            <p>Created by Fernando Luis Díaz Fajardo & Juan Manuel Guzmán Páez.</p>
+      <section className="eq-station eq-station-alt" id="vocabulary">
+        <div className="eq-container">
+          <StationHeading eyebrow="📖 Unit 4 · Disaster!" title="Disaster Words" intro="Tap a card to learn the word." />
+
+          <Reveal className="eq-vocab-banner">
+            <img src="/earthquake/images/redesign/sections/unit4-vocabulary-cards.png" alt="Illustrated cards for disaster vocabulary: earthquake, volcano, hurricane, tsunami, lightning and rescue" loading="lazy" />
+          </Reveal>
+
+          <VocabularyCards />
+
+          <div className="eq-station-cta">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('grammar')}>ENGLISH TIME</button>
           </div>
-          <div>
-            <strong>Verified science sources</strong>
-            <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000rcnw" target="_blank" rel="noreferrer">USGS · M 6.2 main event</a>
-            <a href="https://earthquake.usgs.gov/earthquakes/eventpage/us6000rcqw" target="_blank" rel="noreferrer">USGS · M 6.3 later event</a>
-            <small>Educational project. Simulated visuals should not be presented as archival footage.</small>
+        </div>
+      </section>
+
+      <section className="eq-station" id="grammar">
+        <div className="eq-container">
+          <StationHeading eyebrow="✏️ Grammar time" title="What Were They Doing?" intro="Past Continuous + Past Simple" />
+
+          <Reveal className="eq-example-grid eq-stagger">
+            {grammarExamples.map((sentence) => (
+              <article className="eq-example-card" key={sentence}>{sentence}</article>
+            ))}
+          </Reveal>
+
+          <GrammarMiniQuiz />
+
+          <div className="eq-station-cta">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('why-because')}>NEXT</button>
           </div>
+        </div>
+      </section>
+
+      <section className="eq-station eq-station-alt" id="why-because">
+        <div className="eq-container">
+          <StationHeading eyebrow="❓ Think about it" title="Why? Because..." />
+          <WhyBecause />
+          <div className="eq-station-cta">
+            <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('challenge')}>NEXT: CHALLENGE</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="eq-station" id="challenge">
+        <div className="eq-container">
+          <StationHeading eyebrow="🏆 Final mission" title="Ready for the Final Challenge?" />
+          <FinalChallenge />
+        </div>
+      </section>
+
+      <footer className="eq-credits" id="credits">
+        <div className="eq-container">
+          <span className="eq-eyebrow-chip">🎓 Our Project</span>
+          <h2>Disaster Watch Venezuela</h2>
+          <p className="eq-credits-course">Created by</p>
+          <div className="eq-credits-names">
+            <strong>Fernando Luis Díaz Álvarez</strong>
+            <strong>Juan Manuel Guzmán Páez</strong>
+          </div>
+          <p className="eq-credits-course">English — Unit 4: Disaster!</p>
+          <p className="eq-credits-source">Earthquake facts: U.S. Geological Survey (USGS)</p>
+          <p className="eq-credits-closing">Learn. Prepare. Stay safe.</p>
         </div>
       </footer>
     </main>

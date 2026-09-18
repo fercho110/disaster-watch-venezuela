@@ -1,0 +1,62 @@
+{
+  "projectTitle": "Disaster Watch Venezuela",
+  "subtitle": "When the Ground Shook",
+  "description": "An Interactive Earthquake Report",
+  "students": [
+    {
+      "name": "Fernando Luis Díaz Álvarez",
+      "role": "Young Reporter"
+    },
+    {
+      "name": "Juan Manuel Guzmán Páez",
+      "role": "Young Reporter"
+    }
+  ],
+  "eventFacts": {
+    "date": "September 24, 2025",
+    "place": "Near Mene Grande, Venezuela",
+    "magnitude": "6.2",
+    "depth": "7.8 km",
+    "source": "U.S. Geological Survey (USGS)"
+  },
+  "vocabulary": [
+    {
+      "word": "DISASTER",
+      "definition": "a very bad event that causes damage."
+    },
+    {
+      "word": "EARTHQUAKE",
+      "definition": "sudden shaking of the ground."
+    },
+    {
+      "word": "VOLCANO",
+      "definition": "a mountain that can erupt."
+    },
+    {
+      "word": "HURRICANE",
+      "definition": "a very strong storm with powerful winds."
+    },
+    {
+      "word": "TSUNAMI",
+      "definition": "a very large sea wave."
+    },
+    {
+      "word": "LIGHTNING",
+      "definition": "a bright flash of electricity in a storm."
+    },
+    {
+      "word": "RESCUE",
+      "definition": "help someone in danger.",
+      "optional": true
+    }
+  ],
+  "grammarExamples": [
+    "People were sleeping when the earthquake started.",
+    "Families were having dinner when the ground shook.",
+    "Children were studying when the shaking began."
+  ],
+  "whyBecause": {
+    "question": "Why did people move away from damaged buildings after the shaking stopped?",
+    "answer": "Because it was safer."
+  }
+}

@@ -1,0 +1,10 @@
+Read and execute `docs/CLAUDE_MASTER_REDESIGN.md` from beginning to end.
+
+Use the supplied `assets/` and copy them into the existing Vite project paths specified in `docs/ASSET_MAP.md`.
+
+Also read:
+- `docs/ENGLISH_COPY.md`
+- `docs/UNIT4_ALIGNMENT.md`
+- `content.json`
+
+Do not create a new Vite project or a new repository. Redesign the existing Disaster Watch Venezuela application, test the build, commit the changes and push to `main` so the connected Vercel deployment updates automatically.

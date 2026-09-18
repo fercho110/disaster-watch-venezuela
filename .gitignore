@@ -3,3 +3,10 @@ dist/
 .env
 .env.*
 .DS_Store
+
+# Teacher's source material pipeline output — contains scanned pages of a
+# copyrighted textbook (Kid's Box New Generation 5). Never publish this.
+UNIDAD4/
+
+# Raw redesign asset originals already copied into public/earthquake/images/redesign/
+Disaster_Watch_Venezuela_Redesign_Package/disaster-watch-redesign-package/assets/

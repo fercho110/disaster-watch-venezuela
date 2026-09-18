@@ -17,7 +17,7 @@ This folder contains a self-contained educational module designed to be copied i
 - Responsive mobile layout
 - Reduced-motion accessibility support
 - Original SVG educational illustrations
-- Credits for Fernando Luis Díaz Fajardo and Juan Manuel Guzmán Páez
+- Credits for Fernando Luis Díaz Álvarez and Juan Manuel Guzmán Páez
 
 ## Copy these folders
 

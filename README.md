@@ -2,12 +2,16 @@
 
 **When the Ground Shook** — An Interactive Earthquake Report.
 
-An interactive, English-learning school project about the 2025 Venezuela earthquake sequence. Built with React and Vite, it combines verified USGS earthquake facts with earth-science explanations, vocabulary, past simple vs. past continuous grammar practice, a safety mission, a final quiz, and a "Be the Reporter" writing activity.
+A child-friendly, visual English Unit 4 ("Disaster!") school project presented by two young reporters. Built with React and Vite, it guides the student through 11 stations — meeting the reporters, the earthquake facts, the video, how earthquakes happen, safety, Unit 4 vocabulary, past simple vs. past continuous grammar, a Why/Because activity and a short final challenge — using verified USGS earthquake facts throughout.
 
 Authors:
 
-- Fernando Luis Díaz Fajardo
+- Fernando Luis Díaz Álvarez
 - Juan Manuel Guzmán Páez
+
+## Redesign assets
+
+Illustrations used by the "young reporters" experience live in `public/earthquake/images/redesign/` (`team/`, `hero/`, `sections/`). The source package they were copied from is kept in `Disaster_Watch_Venezuela_Redesign_Package/` for reference.
 
 ## Run locally
 
