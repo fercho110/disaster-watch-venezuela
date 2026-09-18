@@ -517,6 +517,8 @@ export default function EarthquakeExperience() {
             <img src="/earthquake/images/redesign/sections/unit4-vocabulary-cards.png" alt="Illustrated cards for disaster vocabulary: earthquake, volcano, hurricane, tsunami, lightning and rescue" loading="lazy" />
           </Reveal>
 
+          <p className="eq-vocab-pointer">👇 Now tap these cards to learn each word:</p>
+
           <VocabularyCards />
 
           <div className="eq-station-cta">
