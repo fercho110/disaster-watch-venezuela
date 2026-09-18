@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './earthquake.css'
 import {
+  earthquakeEffects,
   earthquakeSteps,
   eventFacts,
   finalChallenge,
   grammarChallenge,
   grammarExamples,
+  laterEvent,
   presenterVideos,
   safetyStages,
   students,
+  usgsSources,
   vocabulary,
   whyBecause,
 } from './earthquakeData.js'
@@ -405,11 +408,25 @@ export default function EarthquakeExperience() {
             ))}
           </Reveal>
 
+          <Reveal className="eq-later-banner">
+            📌 {laterEvent.text}
+          </Reveal>
+
           <Reveal className="eq-map-card">
             <img src="/earthquake/images/venezuela-map.svg" alt="Map of Venezuela showing the earthquake location near Mene Grande" loading="lazy" />
           </Reveal>
 
           <PresenterVideo video={presenterVideos.earthquake} />
+
+          <StationHeading eyebrow="🏚️ Effects" title="What Damage Can It Cause?" intro={earthquakeEffects.note} />
+          <Reveal className="eq-effects-grid eq-stagger">
+            {earthquakeEffects.items.map((item) => (
+              <article className="eq-effect-card" key={item.text}>
+                <span aria-hidden="true">{item.icon}</span>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </Reveal>
 
           <div className="eq-station-cta">
             <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('process')}>SEE HOW IT HAPPENS</button>
@@ -553,7 +570,15 @@ export default function EarthquakeExperience() {
             <strong>Juan Manuel Guzmán Páez</strong>
           </div>
           <p className="eq-credits-course">English — Unit 4: Disaster!</p>
-          <p className="eq-credits-source">Earthquake facts: U.S. Geological Survey (USGS)</p>
+          <p className="eq-credits-source">
+            Earthquake facts:{' '}
+            {usgsSources.map((source, index) => (
+              <React.Fragment key={source.url}>
+                {index > 0 && ' · '}
+                <a href={source.url} target="_blank" rel="noreferrer">{source.label}</a>
+              </React.Fragment>
+            ))}
+          </p>
           <p className="eq-credits-closing">Learn. Prepare. Stay safe.</p>
         </div>
       </footer>
