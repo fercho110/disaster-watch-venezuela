@@ -230,6 +230,29 @@ h1, h2, h3, .eq-primary-btn, .eq-secondary-btn, .eq-eyebrow-chip {
 .eq-map-card { background: white; border-radius: var(--eq-radius); padding: 18px; box-shadow: 0 18px 50px rgba(28,43,58,.08); max-width: 420px; margin: 0 auto; }
 .eq-map-card img { width: 100%; display: block; }
 
+/* Presenter videos */
+.eq-presenter-card {
+  max-width: 420px;
+  margin: 28px auto 0;
+  background: white;
+  border-radius: var(--eq-radius);
+  padding: 18px;
+  box-shadow: 0 18px 50px rgba(28,43,58,.1);
+  text-align: center;
+}
+.eq-presenter-header { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 14px; }
+.eq-presenter-header img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--eq-yellow); }
+.eq-presenter-header strong { font-family: 'Fredoka'; font-size: 15px; }
+.eq-presenter-card video {
+  width: 100%;
+  max-height: 480px;
+  border-radius: 18px;
+  display: block;
+  background: black;
+}
+.eq-presenter-placeholder { padding: 40px 10px; color: var(--eq-muted); display: grid; gap: 8px; justify-items: center; }
+.eq-presenter-placeholder span { font-size: 28px; }
+
 /* Video */
 .eq-video-frame {
   max-width: 820px;

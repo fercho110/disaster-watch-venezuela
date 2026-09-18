@@ -3,13 +3,30 @@ export const students = [
     name: 'Fernando Luis Díaz Álvarez',
     role: 'Young Reporter',
     photo: '/earthquake/images/redesign/team/fernando-young-reporter.png',
+    quote: 'Let’s learn how to stay safe!',
   },
   {
     name: 'Juan Manuel Guzmán Páez',
     role: 'Young Reporter',
     photo: '/earthquake/images/redesign/team/juan-manuel-young-reporter.png',
+    quote: 'Let’s discover what happened!',
   },
 ]
+
+export const presenterVideos = {
+  earthquake: {
+    name: 'Juan Manuel Guzmán Páez',
+    photo: '/earthquake/images/redesign/team/juan-manuel-young-reporter.png',
+    title: 'Juan Manuel’s Report',
+    src: '/earthquake/video/juan-manuel-earthquake.mp4',
+  },
+  safety: {
+    name: 'Fernando Luis Díaz Álvarez',
+    photo: '/earthquake/images/redesign/team/fernando-young-reporter.png',
+    title: 'Fernando’s Safety Tip',
+    src: '/earthquake/video/fernando-safety-tip.mp4',
+  },
+}
 
 export const eventFacts = [
   { icon: '📅', label: 'DATE', value: 'September 24, 2025' },

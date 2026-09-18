@@ -6,6 +6,7 @@ import {
   finalChallenge,
   grammarChallenge,
   grammarExamples,
+  presenterVideos,
   safetyStages,
   students,
   vocabulary,
@@ -67,6 +68,29 @@ function StationHeading({ eyebrow, title, intro }) {
       <span className="eq-eyebrow-chip">{eyebrow}</span>
       <h2>{title}</h2>
       {intro && <p>{intro}</p>}
+    </Reveal>
+  )
+}
+
+function PresenterVideo({ video }) {
+  const [error, setError] = useState(false)
+
+  return (
+    <Reveal className="eq-presenter-card">
+      <div className="eq-presenter-header">
+        <img src={video.photo} alt={video.name} loading="lazy" />
+        <strong>{video.title}</strong>
+      </div>
+      {!error ? (
+        <video controls preload="metadata" onError={() => setError(true)}>
+          <source src={video.src} type="video/mp4" />
+        </video>
+      ) : (
+        <div className="eq-presenter-placeholder">
+          <span aria-hidden="true">▶</span>
+          <p>Educational video will be added here.</p>
+        </div>
+      )}
     </Reveal>
   )
 }
@@ -355,14 +379,12 @@ export default function EarthquakeExperience() {
           <StationHeading eyebrow="👋 Say hello" title="Meet the Young Reporters" intro="We are going to tell you about an earthquake in Venezuela." />
 
           <Reveal className="eq-reporter-grid eq-stagger">
-            {students.map((student, index) => (
+            {students.map((student) => (
               <article className="eq-reporter-card" key={student.name}>
                 <img src={student.photo} alt={`${student.name}, young reporter`} loading="lazy" />
                 <strong>{student.name}</strong>
                 <small>{student.role}</small>
-                <div className="eq-speech-bubble eq-speech-bubble-small">
-                  {index === 0 ? 'Let’s discover what happened!' : 'And let’s learn how to stay safe!'}
-                </div>
+                <div className="eq-speech-bubble eq-speech-bubble-small">{student.quote}</div>
               </article>
             ))}
           </Reveal>
@@ -386,6 +408,8 @@ export default function EarthquakeExperience() {
           <Reveal className="eq-map-card">
             <img src="/earthquake/images/venezuela-map.svg" alt="Map of Venezuela showing the earthquake location near Mene Grande" loading="lazy" />
           </Reveal>
+
+          <PresenterVideo video={presenterVideos.earthquake} />
 
           <div className="eq-station-cta">
             <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('process')}>SEE HOW IT HAPPENS</button>
@@ -459,6 +483,8 @@ export default function EarthquakeExperience() {
               </article>
             ))}
           </Reveal>
+
+          <PresenterVideo video={presenterVideos.safety} />
 
           <div className="eq-station-cta">
             <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('vocabulary')}>I KNOW WHAT TO DO</button>
