@@ -237,6 +237,20 @@ h1, h2, h3, .eq-primary-btn, .eq-secondary-btn, .eq-eyebrow-chip {
 .eq-fact-flip-value { font-family: 'Fredoka'; font-size: 19px; color: var(--eq-ink); }
 .eq-fact-flip-hint { color: var(--eq-muted); font-size: 13px; }
 
+.eq-impact-note {
+  max-width: 700px;
+  margin: 0 auto 28px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  background: #f3f4f6;
+  border-left: 4px solid #6b7280;
+  color: #374151;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+.eq-impact-note strong { display: block; margin-bottom: 6px; font-family: 'Fredoka'; font-size: 15.5px; color: #1f2937; }
+.eq-impact-note small { display: block; margin-top: 10px; color: #6b7280; font-size: 12px; font-style: italic; }
+
 .eq-later-banner {
   max-width: 640px;
   margin: 0 auto 24px;

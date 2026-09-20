@@ -29,16 +29,21 @@ export const presenterVideos = {
 }
 
 export const eventFacts = [
-  { icon: '📅', label: 'DATE', value: 'September 24, 2025' },
-  { icon: '📍', label: 'PLACE', value: 'Near Mene Grande, Venezuela' },
-  { icon: '📊', label: 'MAGNITUDE', value: '6.2' },
-  { icon: '🌎', label: 'DEPTH', value: '7.8 km' },
+  { icon: '📅', label: 'DATE', value: 'June 24, 2026' },
+  { icon: '📍', label: 'PLACE', value: 'Near Catia La Mar, Venezuela' },
+  { icon: '📊', label: 'MAGNITUDE', value: '7.5' },
+  { icon: '🌎', label: 'DEPTH', value: '10 km' },
 ]
 
-export const laterEvent = {
-  text: 'A second, stronger earthquake (M 6.3) hit the same area on September 25, 2025.',
+export const relatedEvent = {
+  text: 'A powerful M 7.2 earthquake struck near San Felipe just 32 seconds before this one — scientists call it a foreshock.',
   source: 'USGS',
-  url: 'https://earthquake.usgs.gov/earthquakes/eventpage/us6000rcqw',
+  url: 'https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zc',
+}
+
+export const humanImpact = {
+  note: 'This was one of the most powerful earthquakes in Venezuela’s history. It caused serious damage across the Caracas and La Guaira area, and sadly many people lost their lives or were injured. Rescue teams worked for weeks to help affected families.',
+  source: 'Reported by USGS and humanitarian organizations',
 }
 
 export const earthquakeEffects = {
@@ -52,8 +57,8 @@ export const earthquakeEffects = {
 }
 
 export const usgsSources = [
-  { label: 'USGS · M 6.2 main event', url: 'https://earthquake.usgs.gov/earthquakes/eventpage/us6000rcnw' },
-  { label: 'USGS · M 6.3 later event', url: 'https://earthquake.usgs.gov/earthquakes/eventpage/us6000rcqw' },
+  { label: 'USGS · M 7.5 main event', url: 'https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zp' },
+  { label: 'USGS · M 7.2 foreshock', url: 'https://earthquake.usgs.gov/earthquakes/eventpage/us6000t7zc' },
 ]
 
 export const earthquakeSteps = [

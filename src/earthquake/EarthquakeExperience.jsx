@@ -7,8 +7,9 @@ import {
   finalChallenge,
   grammarChallenge,
   grammarExamples,
-  laterEvent,
+  humanImpact,
   presenterVideos,
+  relatedEvent,
   safetyStages,
   students,
   usgsSources,
@@ -400,7 +401,7 @@ export default function EarthquakeExperience() {
 
       <section className="eq-station eq-station-alt" id="what-happened">
         <div className="eq-container">
-          <StationHeading eyebrow="📰 The report" title="What Happened?" intro="A strong earthquake shook the area." />
+          <StationHeading eyebrow="📰 The report" title="What Happened?" intro="A powerful earthquake shook Venezuela." />
 
           <Reveal className="eq-facts-grid eq-stagger">
             {eventFacts.map((fact) => (
@@ -409,14 +410,19 @@ export default function EarthquakeExperience() {
           </Reveal>
 
           <Reveal className="eq-later-banner">
-            📌 {laterEvent.text}
+            📌 {relatedEvent.text}
           </Reveal>
 
           <Reveal className="eq-map-card">
-            <img className="eq-photo-zoom" src="/earthquake/images/venezuela-map.svg" alt="Map of Venezuela showing the earthquake location near Mene Grande" loading="lazy" />
+            <img className="eq-photo-zoom" src="/earthquake/images/venezuela-map.svg" alt="Map of Venezuela showing the earthquake location near Catia La Mar, close to Caracas" loading="lazy" />
           </Reveal>
 
           <PresenterVideo video={presenterVideos.earthquake} />
+
+          <Reveal className="eq-impact-note">
+            <strong>A serious event.</strong> {humanImpact.note}
+            <small>{humanImpact.source}</small>
+          </Reveal>
 
           <StationHeading eyebrow="🏚️ Effects" title="What Damage Can It Cause?" intro={earthquakeEffects.note} />
           <Reveal className="eq-effects-grid eq-stagger">

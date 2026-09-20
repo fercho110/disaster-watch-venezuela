@@ -41,11 +41,11 @@ The page is already coded to load that exact path. If the file is missing, a gra
 
 Main event:
 
-- USGS M 6.2, 24 km ENE of Mene Grande, Venezuela — 24 September 2025, 22:21:55 UTC, depth 7.8 km
+- USGS M 7.5, 20 km W of Catia La Mar, Venezuela — 24 June 2026, 22:05:04 UTC, depth 10 km — one of the strongest earthquakes recorded in Venezuela's history
 
-Later event:
+Foreshock (32 seconds earlier):
 
-- USGS M 6.3, 25 km ENE of Mene Grande, Venezuela — 25 September 2025, 03:51:39 UTC, depth 14.0 km
+- USGS M 7.2, 20 km E of San Felipe, Venezuela — 24 June 2026, 22:04:31 UTC
 
 Sources are linked in the page footer.
 
