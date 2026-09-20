@@ -578,6 +578,16 @@ export default function EarthquakeExperience() {
             <strong>Juan Manuel Guzmán Páez</strong>
           </div>
           <p className="eq-credits-course">English — Unit 4: Disaster!</p>
+          <div className="eq-station-cta">
+            <a
+              href="https://unasletrasdevida.blogspot.com/p/when-ground-shook-2026-venezuela.html"
+              target="_blank"
+              rel="noreferrer"
+              className="eq-secondary-btn"
+            >
+              📝 Read Our Blog Post
+            </a>
+          </div>
           <p className="eq-credits-source">
             Earthquake facts:{' '}
             {usgsSources.map((source, index) => (
