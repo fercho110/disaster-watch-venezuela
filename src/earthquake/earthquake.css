@@ -169,6 +169,17 @@ h1, h2, h3, .eq-primary-btn, .eq-secondary-btn, .eq-eyebrow-chip {
 .eq-hero-subtitle { margin: 0; font-size: clamp(19px, 3vw, 24px); font-weight: 600; color: var(--eq-sky); }
 .eq-hero-description { margin: 6px 0 18px; color: var(--eq-muted); font-size: 16px; }
 .eq-hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 22px 0 20px; }
+.eq-hero-blog-link {
+  display: inline-block;
+  margin: 4px 0 18px;
+  color: var(--eq-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--eq-muted);
+}
+.eq-hero-blog-link:hover { color: var(--eq-sky); border-color: var(--eq-sky); }
+
 .eq-byline { color: var(--eq-muted); font-size: 14px; }
 .eq-byline strong { display: block; color: var(--eq-ink); margin-top: 2px; }
 
@@ -238,18 +249,43 @@ h1, h2, h3, .eq-primary-btn, .eq-secondary-btn, .eq-eyebrow-chip {
 .eq-fact-flip-hint { color: var(--eq-muted); font-size: 13px; }
 
 .eq-impact-note {
+  position: relative;
   max-width: 700px;
   margin: 0 auto 28px;
-  padding: 20px 24px;
-  border-radius: 18px;
-  background: #f3f4f6;
-  border-left: 4px solid #6b7280;
+  padding: 24px 26px 22px 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #f6f7f8, #e9ebee);
+  border: 1px solid #dde1e6;
+  box-shadow: 0 16px 38px rgba(28, 43, 58, .08);
   color: #374151;
   font-size: 14.5px;
-  line-height: 1.65;
+  line-height: 1.7;
 }
-.eq-impact-note strong { display: block; margin-bottom: 6px; font-family: 'Fredoka'; font-size: 15.5px; color: #1f2937; }
-.eq-impact-note small { display: block; margin-top: 10px; color: #6b7280; font-size: 12px; font-style: italic; }
+.eq-impact-note::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #6b7280, #9ca3af);
+}
+.eq-impact-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.eq-impact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.eq-impact-note strong { font-family: 'Fredoka'; font-size: 16.5px; color: #1f2937; }
+.eq-impact-text { margin: 0; }
+.eq-impact-note small { display: block; margin-top: 14px; padding-top: 12px; border-top: 1px solid #dde1e6; color: #6b7280; font-size: 12px; font-style: italic; }
 
 .eq-later-banner {
   max-width: 640px;

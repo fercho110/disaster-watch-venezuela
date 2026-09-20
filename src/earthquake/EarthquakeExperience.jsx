@@ -371,6 +371,14 @@ export default function EarthquakeExperience() {
             <button type="button" className="eq-primary-btn" onClick={() => scrollToSection('reporters')}>START THE REPORT</button>
             <button type="button" className="eq-secondary-btn" onClick={() => scrollToSection('video')}>WATCH THE VIDEO</button>
           </div>
+          <a
+            className="eq-hero-blog-link"
+            href="https://unasletrasdevida.blogspot.com/p/when-ground-shook-2026-venezuela.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            📝 This project also has a written blog report →
+          </a>
           <div className="eq-byline">
             <span>Presented by</span>
             <strong>Fernando Luis Díaz Álvarez &amp; Juan Manuel Guzmán Páez</strong>
@@ -420,7 +428,11 @@ export default function EarthquakeExperience() {
           <PresenterVideo video={presenterVideos.earthquake} />
 
           <Reveal className="eq-impact-note">
-            <strong>A serious event.</strong> {humanImpact.note}
+            <div className="eq-impact-header">
+              <span className="eq-impact-icon" aria-hidden="true">🎗️</span>
+              <strong>A Serious Event</strong>
+            </div>
+            <p className="eq-impact-text">{humanImpact.note}</p>
             <small>{humanImpact.source}</small>
           </Reveal>
 
